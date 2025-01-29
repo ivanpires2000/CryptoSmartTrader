@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoSmartTrader - Análise de Criptomoedas</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>CryptoSmartTrader</h1>
+    <div id="messages"></div>
+
+    <!-- Painel de Análise -->
+    <div class="card">
+      <h2>Análise de Mercado</h2>
+      <div class="market-analysis-container">
+        <div class="price-info">
+          <h3>Preço Atual</h3>
+          <p id="current-price">-</p>
+        </div>
+        
+        <div class="indicators-section">
+          <h3>Indicadores Técnicos</h3>
+          <div id="technical-indicators" class="indicators-grid">
+            <!-- Preenchido via JavaScript -->
+          </div>
+        </div>
+
+        <div class="analysis-section">
+          <h3>Análise de Mercado</h3>
+          <div id="market-analysis" class="analysis-grid">
+            <!-- Preenchido via JavaScript -->
+          </div>
+        </div>
+
+        <div class="fibonacci-section">
+          <h3>Níveis de Fibonacci</h3>
+          <div id="fibonacci-levels" class="fibonacci-grid">
+            <!-- Preenchido via JavaScript -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="analysis-crypto">Selecione a Criptomoeda:</label>
+          <select id="analysis-crypto" onchange="analyzeMarket(this.value)">
+            <option value="bitcoin">Bitcoin (BTC)</option>
+            <option value="ethereum">Ethereum (ETH)</option>
+            <option value="cardano">Cardano (ADA)</option>
+            <option value="solana">Solana (SOL)</option>
+            <option value="polkadot">Polkadot (DOT)</option>
+            <option value="binancecoin">Binance Coin (BNB)</option>
+            <option value="ripple">Ripple (XRP)</option>
+            <option value="dogecoin">Dogecoin (DOGE)</option>
+            <option value="avalanche-2">Avalanche (AVAX)</option>
+            <option value="chainlink">Chainlink (LINK)</option>
+            <option value="polygon">Polygon (MATIC)</option>
+            <option value="uniswap">Uniswap (UNI)</option>
+            <option value="stellar">Stellar (XLM)</option>
+            <option value="cosmos">Cosmos (ATOM)</option>
+            <option value="litecoin">Litecoin (LTC)</option>
+          </select>
+          <button onclick="analyzeMarket()">Analisar Mercado</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="priceChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Alertas Ativos -->
+    <div class="card">
+      <h2>Alertas Configurados</h2>
+      <div class="table-container">
+        <table id="alerts-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Criptomoeda</th>
+              <th>Condição</th>
+              <th>Data</th>
+              <th>Valor Atingido</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Os alertas serão carregados aqui -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Novo Alerta -->
+    <div class="card">
+      <h2>Adicionar Novo Alerta</h2>
+      <form id="alert-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="crypto_id">Criptomoeda:</label>
+          <select id="crypto_id" required>
+            <option value="bitcoin">Bitcoin (BTC)</option>
+            <option value="ethereum">Ethereum (ETH)</option>
+            <option value="cardano">Cardano (ADA)</option>
+            <option value="solana">Solana (SOL)</option>
+            <option value="polkadot">Polkadot (DOT)</option>
+            <option value="binancecoin">Binance Coin (BNB)</option>
+            <option value="ripple">Ripple (XRP)</option>
+            <option value="dogecoin">Dogecoin (DOGE)</option>
+            <option value="avalanche-2">Avalanche (AVAX)</option>
+            <option value="chainlink">Chainlink (LINK)</option>
+            <option value="polygon">Polygon (MATIC)</option>
+            <option value="uniswap">Uniswap (UNI)</option>
+            <option value="stellar">Stellar (XLM)</option>
+            <option value="cosmos">Cosmos (ATOM)</option>
+            <option value="litecoin">Litecoin (LTC)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="threshold">Limite de Preço:</label>
+          <input type="number" id="threshold" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="condition">Condição:</label>
+          <select id="condition" required>
+            <option value="below">Abaixo</option>
+            <option value="above">Acima</option>
+          </select>
+        </div>
+        <button onclick="addAlert()">Adicionar Alerta</button>
+      </form>
+    </div>
+
+    <!-- Backtesting -->
+    <div class="card">
+      <h2>Backtesting de Estratégias</h2>
+      <form id="backtest-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="backtest-crypto">Criptomoeda:</label>
+          <select id="backtest-crypto" required>
+            <option value="bitcoin">Bitcoin (BTC)</option>
+            <option value="ethereum">Ethereum (ETH)</option>
+            <option value="cardano">Cardano (ADA)</option>
+            <option value="solana">Solana (SOL)</option>
+            <option value="polkadot">Polkadot (DOT)</option>
+            <option value="binancecoin">Binance Coin (BNB)</option>
+            <option value="ripple">Ripple (XRP)</option>
+            <option value="dogecoin">Dogecoin (DOGE)</option>
+            <option value="avalanche-2">Avalanche (AVAX)</option>
+            <option value="chainlink">Chainlink (LINK)</option>
+            <option value="polygon">Polygon (MATIC)</option>
+            <option value="uniswap">Uniswap (UNI)</option>
+            <option value="stellar">Stellar (XLM)</option>
+            <option value="cosmos">Cosmos (ATOM)</option>
+            <option value="litecoin">Litecoin (LTC)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="backtest-days">Período (dias):</label>
+          <input type="number" id="backtest-days" value="30" min="1" max="365" required>
+        </div>
+        <div class="form-group">
+          <label for="rsi-oversold">RSI Sobrevenda:</label>
+          <input type="number" id="rsi-oversold" value="30" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+          <label for="rsi-overbought">RSI Sobrecompra:</label>
+          <input type="number" id="rsi-overbought" value="70" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+          <label for="stop-loss">Stop Loss (%):</label>
+          <input type="number" id="stop-loss" value="2" min="0.1" max="10" step="0.1" required>
+        </div>
+        <button onclick="runBacktest()">Executar Backtest</button>
+      </form>
+      
+      <div id="backtest-results" class="backtest-results">
+        <!-- Resultados serão exibidos aqui -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>
