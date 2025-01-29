@@ -1,0 +1,149 @@
+/* Estilos para Força do Mercado */
+.market-strength {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.market-strength h3 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.strength-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.strength-components div {
+    background: #2a2a2a;
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Estilos para Padrões de Preço */
+.pattern-card {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    border-left: 4px solid;
+}
+
+.pattern-card.alta {
+    border-color: #4CAF50;
+}
+
+.pattern-card.media {
+    border-color: #FFC107;
+}
+
+.pattern-card h4 {
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.pattern-card .confidence {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 8px;
+}
+
+/* Estilos para Recomendações */
+.recommendation-card {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.recommendation-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.recommendation-card.compra::before {
+    background: #4CAF50;
+}
+
+.recommendation-card.venda::before {
+    background: #f44336;
+}
+
+.recommendation-card.alta {
+    border: 1px solid #4CAF50;
+}
+
+.recommendation-card.media {
+    border: 1px solid #FFC107;
+}
+
+.recommendation-card h4 {
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.recommendation-card .confidence {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 8px;
+    background: #2a2a2a;
+}
+
+/* Estilos para Níveis de Fibonacci */
+.fib-level {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.fib-level:last-child {
+    border-bottom: none;
+}
+
+.level-name {
+    color: #888;
+}
+
+.level-price {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Animações */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.recommendation-card.alta {
+    animation: pulse 2s infinite;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .strength-components {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .strength-components {
+        grid-template-columns: 1fr;
+    }
+} 
